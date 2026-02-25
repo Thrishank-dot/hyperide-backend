@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Workspace - HyperIDE</title>
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs/loader.min.js"></script>
+    <script>
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.38.0/min/vs' }});
+        window.monacoReady = new Promise(resolve => {
+            require(['vs/editor/editor.main'], function() { resolve(); });
+        });
+    </script>
+</head>
+<body>
+    <div class="ide-wrapper">
+        <header class="ide-nav">
+            <div class="brand">⚡ HYPER_IDE <span th:if="${role == 'ADMIN'}" style="color:red; font-size:10px;">[ADMIN]</span></div>
+            <div class="toolbar">
+                <button id="btnUpload" class="nav-btn">⬆ UPLOAD</button>
+                <input type="file" id="fileUpload" style="display:none" accept=".java,.py,.txt">
+                <button id="btnSave" class="nav-btn">⬇ SAVE</button>
+                <button id="btnStats" class="nav-btn">📊 STATS</button>
+                <button id="btnRun" class="nav-btn run">▶ RUN</button>
+                <button id="btnChatToggle" class="nav-btn">💬 CHAT</button>
+                
+                <span style="color:white; margin:0 15px;">User: <b th:text="${username}"></b></span>
+                <a href="#" onclick="handleLogout()" class="nav-btn danger" style="text-decoration:none;">EXIT</a>
+            </div>
+        </header>
+
+        <div class="ide-main">
+            <div class="sidebar" id="file-explorer">
+                <div class="sidebar-title">FILES</div>
+                <div id="file-list" class="file-list"></div>
+                
+                <div class="sidebar-actions">
+                    <input type="text" id="newFileInput" placeholder="filename.java" class="new-file-input">
+                    <button id="createFileBtn" class="create-btn">+ CREATE</button>
+                </div>
+                
+                <div th:if="${role == 'ADMIN'}" style="margin-top:20px; border-top:1px solid #333; padding-top:10px;">
+                    <div class="sidebar-title" style="color:red;">🔴 LIVE MONITOR</div>
+                    <div id="adminMonitor" style="padding:10px; font-size:11px; color:#aaa;">Waiting for activity...</div>
+                </div>
+            </div>
+
+            <div class="work-area" id="work-area">
+                <div id="editor-container" style="flex: 1; width: 100%; min-height: 300px;"></div>
+                
+                <div class="terminal-pane">
+                    <div class="term-header">
+                        <span>CONSOLE TERMINAL</span>
+                        <button id="btnClearTerm" style="background:none; border:none; color:#888; cursor:pointer;">CLEAR</button>
+                    </div>
+                    <div class="term-body" id="terminalOutput">System Ready...</div>
+                </div>
+            </div>
+
+            <div class="chat-panel-container" id="chatPanel">
+                <div class="chat-header">TEAM CHAT</div>
+                <div class="chat-body" id="chatMessages"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chatInput" placeholder="Type a message...">
+                    <button id="btnSendChat">➤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="statsModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:#1e1e1e; padding:20px; border:1px solid #444; border-radius:8px; z-index:100; width:400px; box-shadow: 0 0 30px black;">
+        <h3 style="color:white; text-align:center; margin-top:0;">Contributions</h3>
+        <canvas id="contributionChart"></canvas>
+        <button id="btnCloseStats" class="cyber-btn" style="margin-top:15px;">CLOSE</button>
+    </div>
+
+    <script th:inline="javascript">
+        const currentUser = /*[[${username}]]*/ 'guest';
+        const currentRole = /*[[${role}]]*/ 'USER';
+    </script>
+    
+    <script src="/js/ide.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch HyperIDE",
+            "request": "launch",
+            "mainClass": "com.hyperide.backend.BackendApplication",
+            "projectName": "backend",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "env": {
+                "ADMIN_SECRET": "Thrishank_New_Admin_2026!"
+            }
+        }
+    ]
+}

@@ -1,0 +1,374 @@
+/* ==========================================
+   1. GLOBAL VARIABLES & RESET
+========================================== */
+:root {
+    --bg-dark: #121212;
+    --bg-panel: #1e1e1e;
+    --bg-header: #252526;
+    --border: #333333;
+    --accent: #007acc;
+    --text-main: #e0e0e0;
+    --text-muted: #888888;
+}
+
+body, html {
+    margin: 0; 
+    padding: 0; 
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-dark); 
+    color: var(--text-main);
+    overflow: hidden; /* Prevents double scrollbars */
+}
+
+/* ==========================================
+   2. AUTHENTICATION PAGE (Login/Register)
+========================================== */
+.auth-container { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    height: 100vh; 
+    background: #000; 
+}
+
+.auth-card { 
+    width: 320px; 
+    padding: 40px; 
+    background: rgba(30, 30, 30, 0.95); 
+    border: 1px solid var(--border); 
+    border-radius: 8px; 
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8); 
+}
+
+.auth-card h2 { 
+    text-align: center; 
+    color: white; 
+    letter-spacing: 2px; 
+    margin-top: 0; 
+    margin-bottom: 20px;
+}
+
+.input-group { 
+    margin-bottom: 20px; 
+}
+
+.input-group label { 
+    display: block; 
+    font-size: 11px; 
+    color: var(--text-muted); 
+    margin-bottom: 5px; 
+    letter-spacing: 1px; 
+}
+
+.input-group input { 
+    width: 100%; 
+    padding: 10px; 
+    background: #111; 
+    border: 1px solid var(--border); 
+    color: white; 
+    box-sizing: border-box; 
+    border-radius: 4px;
+}
+
+.input-group input:focus { 
+    border-color: var(--accent); 
+    outline: none; 
+}
+
+.cyber-btn { 
+    width: 100%; 
+    padding: 12px; 
+    background: var(--accent); 
+    color: white; 
+    border: none; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: 0.2s; 
+    border-radius: 4px;
+}
+
+.cyber-btn:hover { 
+    background: #005f9e; 
+}
+
+/* ==========================================
+   3. IDE LAYOUT STRUCTURE
+========================================== */
+.ide-wrapper { 
+    display: flex; 
+    flex-direction: column; 
+    height: 100vh; 
+    width: 100vw; 
+    overflow: hidden; 
+}
+
+/* Header Navbar */
+.ide-nav { 
+    height: 50px; 
+    background: var(--bg-header); 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 0 15px; 
+    border-bottom: 1px solid var(--border); 
+}
+
+.brand { 
+    font-weight: bold; 
+    font-size: 14px; 
+    letter-spacing: 1px; 
+}
+
+.toolbar { 
+    display: flex; 
+    align-items: center; 
+}
+
+.nav-btn { 
+    background: transparent; 
+    border: 1px solid #444; 
+    color: #ddd; 
+    padding: 6px 12px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    margin-left: 8px; 
+    font-size: 12px; 
+    transition: 0.2s; 
+}
+
+.nav-btn:hover { background: #333; }
+.nav-btn.run { background: #238636; border: none; color: white; font-weight: bold; }
+.nav-btn.run:hover { background: #2ea043; }
+.nav-btn.danger { border-color: #d32f2f; color: #ff4d4d; }
+.nav-btn.danger:hover { background: rgba(211, 47, 47, 0.1); }
+
+/* Main Body Area */
+.ide-main { 
+    display: flex; 
+    flex: 1; 
+    overflow: hidden; 
+    position: relative; 
+    height: calc(100vh - 50px); 
+}
+
+/* ==========================================
+   4. SIDEBAR (File Explorer & Live Monitor)
+========================================== */
+.sidebar { 
+    width: 240px; 
+    background: var(--bg-panel); 
+    border-right: 1px solid var(--border); 
+    display: flex; 
+    flex-direction: column; 
+    z-index: 5; 
+    height: 100%; 
+}
+
+.sidebar-title { 
+    padding: 15px; 
+    font-size: 11px; 
+    font-weight: bold; 
+    color: var(--text-muted); 
+    letter-spacing: 1px; 
+    border-bottom: 1px solid var(--border); 
+}
+
+.file-list { 
+    flex: 1; 
+    overflow-y: auto; 
+}
+
+.file-row { 
+    padding: 8px 15px; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    font-size: 13px; 
+    color: #aaa; 
+    transition: 0.2s; 
+    border-left: 2px solid transparent; 
+}
+
+.file-row:hover { 
+    background: #333; 
+    color: white; 
+}
+
+.file-row.active { 
+    background: #37373d; 
+    color: white; 
+    border-left-color: var(--accent); 
+}
+
+.sidebar-actions { 
+    padding: 10px; 
+    border-top: 1px solid var(--border); 
+}
+
+.create-btn { 
+    width: 100%; 
+    background: transparent; 
+    border: 1px dashed #555; 
+    color: #aaa; 
+    padding: 8px; 
+    cursor: pointer; 
+    font-size: 12px; 
+    border-radius: 4px;
+}
+
+.create-btn:hover { 
+    border-color: var(--accent); 
+    color: white; 
+}
+
+.new-file-input { 
+    width: 100%; 
+    background: #111; 
+    border: 1px solid var(--accent); 
+    color: white; 
+    padding: 6px; 
+    box-sizing: border-box; 
+    margin-bottom: 5px; 
+    border-radius: 4px;
+}
+
+/* ==========================================
+   5. WORK AREA (Editor + Terminal)
+========================================== */
+.work-area { 
+    flex: 1; 
+    display: flex; 
+    flex-direction: column; 
+    background: var(--bg-dark); 
+    transition: margin-right 0.3s ease-in-out; 
+    height: 100%; 
+}
+
+.work-area.chat-open { 
+    margin-right: 300px; 
+}
+
+/* CRITICAL FIX FOR THE BLACK SCREEN / 0px HEIGHT */
+#editor-container { 
+    flex: 1; 
+    width: 100%; 
+    min-height: 300px; /* Forces browser to render it even if JS is slow */
+    background: #1e1e1e; 
+}
+
+/* TERMINAL PANE */
+.terminal-pane { 
+    height: 250px; 
+    min-height: 250px; 
+    background: #0d1117; 
+    border-top: 1px solid var(--border); 
+    display: flex; 
+    flex-direction: column; 
+}
+
+.term-header { 
+    padding: 5px 15px; 
+    background: #161b22; 
+    font-size: 11px; 
+    color: var(--text-muted); 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 1px solid #30363d; 
+}
+
+.term-body { 
+    flex: 1; 
+    padding: 10px 15px; 
+    margin: 0; 
+    font-family: 'Consolas', 'Courier New', monospace; 
+    font-size: 13px; 
+    color: #a5d6ff; 
+    overflow-y: auto; 
+    white-space: pre-wrap; 
+}
+
+/* ==========================================
+   6. CHAT PANEL (Sliding Sidebar)
+========================================== */
+.chat-panel-container { 
+    width: 300px; 
+    background: var(--bg-panel); 
+    border-left: 1px solid var(--border); 
+    display: flex; 
+    flex-direction: column; 
+    position: absolute; 
+    top: 0; 
+    bottom: 0; 
+    right: -300px; 
+    transition: right 0.3s ease-in-out;
+    z-index: 10;
+    height: 100%;
+}
+
+.chat-panel-container.open { 
+    right: 0; 
+}
+
+.chat-header { 
+    padding: 15px; 
+    font-weight: bold; 
+    font-size: 12px; 
+    background: var(--bg-header); 
+    border-bottom: 1px solid var(--border); 
+    color: white; 
+}
+
+.chat-body { 
+    flex: 1; 
+    padding: 10px; 
+    overflow-y: auto; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+}
+
+.chat-msg { 
+    font-size: 12px; 
+    padding: 8px; 
+    background: #2d2d2d; 
+    border-radius: 4px; 
+    line-height: 1.4; 
+    color: #ccc; 
+    word-wrap: break-word;
+}
+
+.chat-input-area { 
+    padding: 10px; 
+    border-top: 1px solid var(--border); 
+    display: flex; 
+    gap: 5px; 
+    background: var(--bg-header); 
+}
+
+.chat-input-area input { 
+    flex: 1; 
+    background: #111; 
+    border: 1px solid #444; 
+    color: white; 
+    padding: 8px; 
+    border-radius: 4px; 
+}
+
+.chat-input-area button { 
+    background: var(--accent); 
+    color: white; 
+    border: none; 
+    padding: 0 15px; 
+    cursor: pointer; 
+    border-radius: 4px; 
+    font-weight: bold; 
+}
+
+/* Custom Scrollbars for a cleaner look */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #555; }

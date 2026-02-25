@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>HyperIDE - Access</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-container">
+    <div class="auth-card">
+        <h2>⚡ HYPER_IDE</h2>
+        
+        <div style="background: rgba(255,165,0,0.2); border: 1px solid orange; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 11px; color: #ffcc80;">
+            <b>⚠️ SYSTEM LIMITATIONS:</b><br>
+            • Supported Compilers: <b>Java</b> & <b>Python</b> only.<br>
+            • Execution Timeout: 5 seconds per run.<br>
+            • Graphical UI libraries (Swing/Tkinter) are not supported.
+        </div>
+
+        <p th:if="${error}" th:text="${error}" style="color:red; font-size:12px; font-weight:bold;"></p>
+        <p th:if="${success}" th:text="${success}" style="color:lightgreen; font-size:12px; font-weight:bold;"></p>
+
+        <form id="loginForm" action="/doLogin" method="POST">
+            <div class="input-group">
+                <label>USERNAME</label>
+                <input type="text" name="username" required>
+            </div>
+            <div class="input-group">
+                <label>PASSWORD</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit" class="cyber-btn">LOGIN</button>
+            <p style="text-align:center; font-size:11px; margin-top:10px; cursor:pointer; color:#007acc;" onclick="toggleForm()">New User? Register here</p>
+        </form>
+
+        <form id="registerForm" action="/doRegister" method="POST" style="display:none;">
+            <div class="input-group">
+                <label>NEW USERNAME</label>
+                <input type="text" name="username" required>
+            </div>
+            <div class="input-group">
+                <label>NEW PASSWORD</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit" class="cyber-btn" style="background:#2ea043;">REGISTER</button>
+            <p style="text-align:center; font-size:11px; margin-top:10px; cursor:pointer; color:#007acc;" onclick="toggleForm()">Back to Login</p>
+        </form>
+    </div>
+
+    <script>
+        function toggleForm() {
+            const login = document.getElementById('loginForm');
+            const reg = document.getElementById('registerForm');
+            if (login.style.display === 'none') {
+                login.style.display = 'block'; reg.style.display = 'none';
+            } else {
+                login.style.display = 'none'; reg.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
